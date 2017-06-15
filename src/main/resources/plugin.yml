@@ -1,0 +1,20 @@
+name: ClayFarming
+version: 0.1.0
+authors: [oshcon]
+website: http://doodcraft.net/
+main: net.doodcraft.oshcon.bukkit.clayfarming.ClayFarmingPlugin
+
+commands:
+  cfarm:
+    description: Base command
+
+permissions:
+  clayfarming.*:
+    description: Grants all plugin permission nodes
+    default: OP
+  clayfarming.command.cfarm:
+    description: Allows players to use /cfarm
+    default: OP
+  clayfarming.command.reload:
+    description: Allows players to use /cfarm reload
+    default: OP
