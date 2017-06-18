@@ -1,5 +1,5 @@
 name: ClayFarming
-version: 0.1.0
+version: 0.2.0
 authors: [oshcon]
 website: http://doodcraft.net/
 main: net.doodcraft.oshcon.bukkit.clayfarming.ClayFarmingPlugin

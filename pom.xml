@@ -4,7 +4,7 @@
 
     <groupId>net.doodcraft</groupId>
     <artifactId>ClayFarming</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 
     <build>
         <finalName>ClayFarming</finalName>
@@ -56,10 +56,15 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>de.slikey:EffectLib</include>
+                                </includes>
+                            </artifactSet>
                             <relocations>
                                 <relocation>
-                                    <pattern>org.mcstats</pattern>
-                                    <shadedPattern>net.doodcraft.oshcon.bukkit.clayfarming.shaded.org.mcstats</shadedPattern>
+                                    <pattern>de.slikey</pattern>
+                                    <shadedPattern>net.doodcraft.oshcon.bukkit.enderpads.shaded.de.slikey</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -76,8 +81,8 @@
         </repository>
 
         <repository>
-            <id>Plugin Metrics</id>
-            <url>http://repo.mcstats.org/content/repositories/public</url>
+            <id>elmakers-repo</id>
+            <url>http://maven.elmakers.com/repository/</url>
         </repository>
     </repositories>
 
@@ -97,9 +102,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mcstats.bukkit</groupId>
-            <artifactId>metrics</artifactId>
-            <version>R8-SNAPSHOT</version>
+            <groupId>de.slikey</groupId>
+            <artifactId>EffectLib</artifactId>
+            <version>5.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

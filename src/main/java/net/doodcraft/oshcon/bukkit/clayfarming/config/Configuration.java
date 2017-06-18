@@ -1,5 +1,6 @@
 package net.doodcraft.oshcon.bukkit.clayfarming.config;
 
+import net.doodcraft.oshcon.bukkit.clayfarming.StaticMethods;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.file.YamlConfigurationOptions;
 
@@ -17,7 +18,9 @@ public class Configuration {
         if (!file.exists()) {
             try {
                 if (file.createNewFile()) {}
-            } catch (IOException ex) {}
+            } catch (IOException ex) {
+                StaticMethods.debug(ex.getLocalizedMessage());
+            }
         }
         load();
     }
@@ -29,7 +32,9 @@ public class Configuration {
         if (!file.exists() || file == null) {
             try {
                 if (file.createNewFile()) {}
-            } catch (IOException ex) {}
+            } catch (IOException ex) {
+                StaticMethods.debug(ex.getLocalizedMessage());
+            }
         }
         load();
     }
@@ -37,19 +42,25 @@ public class Configuration {
     private void load() {
         try {
             yaml.load(file);
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+            StaticMethods.debug(ex.getLocalizedMessage());
+        }
     }
 
     public void save() {
         try {
             yaml.save(file);
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+            StaticMethods.debug(ex.getLocalizedMessage());
+        }
     }
 
     public void delete() {
         try {
             if (file.createNewFile()) {}
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+            StaticMethods.debug(ex.getLocalizedMessage());
+        }
     }
 
     public int getInteger(String s) {

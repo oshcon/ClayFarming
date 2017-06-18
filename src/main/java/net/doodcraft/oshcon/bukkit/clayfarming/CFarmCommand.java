@@ -25,10 +25,13 @@ public class CFarmCommand implements CommandExecutor {
                     }
                     try {
                         Settings.reload();
+                        StaticMethods.log("&aPlugin reloaded.");
                         sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &aPlugin reloaded."));
                         return true;
                     } catch (Exception ex) {
+                        StaticMethods.log("&cError reloading plugin.");
                         sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &cError reloading plugin."));
+                        StaticMethods.debug(ex.getLocalizedMessage());
                         return false;
                     }
                 }
@@ -47,6 +50,7 @@ public class CFarmCommand implements CommandExecutor {
                         return true;
                     } catch (Exception ex) {
                         StaticMethods.log("&cError reloading plugin.");
+                        StaticMethods.debug(ex.getLocalizedMessage());
                         return true;
                     }
                 }
