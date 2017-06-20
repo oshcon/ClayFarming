@@ -22,9 +22,12 @@ public class StaticMethods {
     public static ArrayList<Integer> bubbleTasks = new ArrayList<>();
     public static Configuration cache = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "cache.yml");
 
-    public static void transform(Block block, Material material) {
+    public static void transform(Block block) {
+
+        Material material = Material.valueOf(Settings.transformToMaterial.toUpperCase());
 
         if (!material.isBlock()) {
+            log("&c\"Materials.To\" contains an invalid value.");
             return;
         }
 
@@ -115,7 +118,7 @@ public class StaticMethods {
             for (String s : cache.getStringList("cache")) {
                 Block block = locStringToBlock(s);
                 if (block != null) {
-                    transform(block, Material.valueOf(Settings.transformToMaterial.toUpperCase()));
+                    transform(block);
                 }
             }
             cache.remove("cache");

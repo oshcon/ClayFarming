@@ -20,7 +20,7 @@ public class BlockListener implements Listener {
         if (from.getType() == Material.WATER || from.getType() == Material.STATIONARY_WATER) {
             if (from.getRelative(BlockFace.DOWN).getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
                 if (!StaticMethods.tranformTasks.contains(from.getRelative(BlockFace.DOWN))) {
-                    StaticMethods.transform(from.getRelative(BlockFace.DOWN), Material.valueOf(Settings.transformToMaterial.toUpperCase()));
+                    StaticMethods.transform(from.getRelative(BlockFace.DOWN));
                 }
             }
         }
@@ -28,7 +28,7 @@ public class BlockListener implements Listener {
         if (to.getType() == Material.WATER || to.getType() == Material.STATIONARY_WATER) {
             if (to.getRelative(BlockFace.DOWN).getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
                 if (!StaticMethods.tranformTasks.contains(to.getRelative(BlockFace.DOWN))) {
-                    StaticMethods.transform(to.getRelative(BlockFace.DOWN), Material.valueOf(Settings.transformToMaterial.toUpperCase()));
+                    StaticMethods.transform(to.getRelative(BlockFace.DOWN));
                 }
             }
         }
@@ -41,7 +41,7 @@ public class BlockListener implements Listener {
         if (block.getType() == Material.WATER) {
             if (block.getRelative(BlockFace.DOWN).getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
                 if (!StaticMethods.tranformTasks.contains(block.getRelative(BlockFace.DOWN))) {
-                    StaticMethods.transform(block.getRelative(BlockFace.DOWN), Material.valueOf(Settings.transformToMaterial.toUpperCase()));
+                    StaticMethods.transform(block.getRelative(BlockFace.DOWN));
                 }
             }
         }
