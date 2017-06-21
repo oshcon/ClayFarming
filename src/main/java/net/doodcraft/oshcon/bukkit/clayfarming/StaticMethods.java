@@ -27,7 +27,7 @@ public class StaticMethods {
         Material material = Material.valueOf(Settings.transformToMaterial.toUpperCase());
 
         if (!material.isBlock()) {
-            log("&c\"Materials.To\" contains an invalid value.");
+            log("&c\"Materials.To\" contains an invalid value. Check your configuration.");
             return;
         }
 
@@ -40,13 +40,9 @@ public class StaticMethods {
                     if (waterLocation.getBlock().getType() == Material.WATER || waterLocation.getBlock().getType() == Material.STATIONARY_WATER) {
                         if (block.getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
                             ParticleEffect.WATER_BUBBLE.display(0, 0, 0, 0.35F, 1, waterLocation, 64);
-                            return;
                         }
                     }
-                    debug("Error spawning bubbles for: " + locStringFromBlock(waterLocation.getBlock()));
-                } catch (Exception ex) {
-                    debug(ex.getLocalizedMessage());
-                }
+                } catch (Exception ignored) {}
             }
         },1L,10L);
 
@@ -70,7 +66,7 @@ public class StaticMethods {
                         Block up = block.getRelative(BlockFace.UP);
                         if (up.getType() == Material.WATER || up.getType() == Material.STATIONARY_WATER) {
                             block.setType(material);
-                            debug("Transformed (" + (System.currentTimeMillis()-startTime) + "ms):" + locStringFromBlock(block));
+                            debug("Transformed: " + locStringFromBlock(block) + " (" + (System.currentTimeMillis()-startTime) + "ms)");
                         }
                     }
                     debug("Stopping and removing block from tasks..");

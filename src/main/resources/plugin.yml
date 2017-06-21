@@ -1,5 +1,5 @@
-name: "${artifactId}"
-version: "${project.version}"
+name: ${artifactId}
+version: ${project.version}
 authors: [oshcon]
 website: http://doodcraft.net/
 main: net.doodcraft.oshcon.bukkit.clayfarming.ClayFarmingPlugin

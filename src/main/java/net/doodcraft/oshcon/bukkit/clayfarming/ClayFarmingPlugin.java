@@ -18,6 +18,8 @@ public class  ClayFarmingPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        long start = System.currentTimeMillis();
+
         plugin = this;
         rand = new Random();
         effectManager = new EffectManager(plugin);
@@ -27,6 +29,9 @@ public class  ClayFarmingPlugin extends JavaPlugin {
 
         Settings.setupDefaults();
         StaticMethods.loadActive();
+
+        long finish = System.currentTimeMillis();
+        StaticMethods.log("&aClayFarming v" + plugin.getDescription().getVersion() + " is now loaded. &e(" + (finish-start) + "ms)");
     }
 
 
