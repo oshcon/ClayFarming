@@ -25,6 +25,7 @@ public class CFarmCommand implements CommandExecutor {
                     }
                     try {
                         Settings.reload();
+                        StaticMethods.reloadActive();
                         StaticMethods.log("&aPlugin reloaded.");
                         sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &aPlugin reloaded."));
                         return true;
@@ -46,6 +47,7 @@ public class CFarmCommand implements CommandExecutor {
                 if (args[0].equalsIgnoreCase("reload")) {
                     try {
                         Settings.reload();
+                        StaticMethods.reloadActive();
                         StaticMethods.log("&aPlugin reloaded.");
                         return true;
                     } catch (Exception ex) {

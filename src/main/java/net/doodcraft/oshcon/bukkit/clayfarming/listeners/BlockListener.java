@@ -16,7 +16,6 @@ public class BlockListener implements Listener {
     public void onFromTo(BlockFromToEvent event) {
         Block from = event.getBlock();
         Block to = event.getToBlock();
-
         if (from.getType() == Material.WATER || from.getType() == Material.STATIONARY_WATER) {
             if (from.getRelative(BlockFace.DOWN).getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
                 if (!StaticMethods.tranformTasks.contains(from.getRelative(BlockFace.DOWN))) {
@@ -37,7 +36,6 @@ public class BlockListener implements Listener {
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
         Block block = event.getBlockPlaced();
-
         if (block.getType() == Material.WATER) {
             if (block.getRelative(BlockFace.DOWN).getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
                 if (!StaticMethods.tranformTasks.contains(block.getRelative(BlockFace.DOWN))) {

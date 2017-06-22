@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings("ALL")
 public class Configuration {
 
     private File file = null;
@@ -17,7 +18,8 @@ public class Configuration {
     public Configuration(File file) {
         if (!file.exists()) {
             try {
-                if (file.createNewFile()) {}
+                if (file.createNewFile()) {
+                }
             } catch (IOException ex) {
                 StaticMethods.debug(ex.getLocalizedMessage());
             }
@@ -26,12 +28,11 @@ public class Configuration {
     }
 
     public Configuration(String path) {
-
         file = new File(path);
-
         if (!file.exists() || file == null) {
             try {
-                if (file.createNewFile()) {}
+                if (file.createNewFile()) {
+                }
             } catch (IOException ex) {
                 StaticMethods.debug(ex.getLocalizedMessage());
             }
@@ -57,7 +58,8 @@ public class Configuration {
 
     public void delete() {
         try {
-            if (file.createNewFile()) {}
+            if (file.createNewFile()) {
+            }
         } catch (Exception ex) {
             StaticMethods.debug(ex.getLocalizedMessage());
         }

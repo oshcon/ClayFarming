@@ -1,6 +1,5 @@
 package net.doodcraft.oshcon.bukkit.clayfarming;
 
-import de.slikey.effectlib.EffectManager;
 import net.doodcraft.oshcon.bukkit.clayfarming.config.Settings;
 import net.doodcraft.oshcon.bukkit.clayfarming.listeners.BlockListener;
 import org.bukkit.Bukkit;
@@ -10,28 +9,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Random;
 
-public class  ClayFarmingPlugin extends JavaPlugin {
+public class ClayFarmingPlugin extends JavaPlugin {
 
     public static Plugin plugin;
-    public static Random rand;
-    public static EffectManager effectManager;
+    static Random rand;
 
     @Override
     public void onEnable() {
         long start = System.currentTimeMillis();
-
         plugin = this;
         rand = new Random();
-        effectManager = new EffectManager(plugin);
-
         registerListeners();
         setExecutors();
-
         Settings.setupDefaults();
         StaticMethods.loadActive();
-
         long finish = System.currentTimeMillis();
-        StaticMethods.log("&aClayFarming v" + plugin.getDescription().getVersion() + " is now loaded. &e(" + (finish-start) + "ms)");
+        StaticMethods.log("&aClayFarming v" + plugin.getDescription().getVersion() + " is now loaded. &e(" + (finish - start) + "ms)");
     }
 
 
@@ -40,17 +33,17 @@ public class  ClayFarmingPlugin extends JavaPlugin {
         StaticMethods.dumpActive();
     }
 
-    public void registerListeners() {
+    private void registerListeners() {
         registerEvents(plugin, new BlockListener());
     }
 
-    public void registerEvents(Plugin plugin, Listener... listeners) {
+    private void registerEvents(Plugin plugin, Listener... listeners) {
         for (Listener listener : listeners) {
             Bukkit.getServer().getPluginManager().registerEvents(listener, plugin);
         }
     }
 
-    public void setExecutors() {
+    private void setExecutors() {
         getCommand("cfarm").setExecutor(new CFarmCommand());
     }
 }

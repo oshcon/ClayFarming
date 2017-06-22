@@ -11,7 +11,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,68 +18,54 @@ import java.util.ArrayList;
 public class StaticMethods {
 
     public static ArrayList<Block> tranformTasks = new ArrayList<>();
-    public static ArrayList<Integer> bubbleTasks = new ArrayList<>();
-    public static Configuration cache = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "cache.yml");
+    private static ArrayList<Integer> bubbleTasks = new ArrayList<>();
 
     public static void transform(Block block) {
-
         Material material = Material.valueOf(Settings.transformToMaterial.toUpperCase());
-
         if (!material.isBlock()) {
             log("&c\"Materials.To\" contains an invalid value. Check your configuration.");
             return;
         }
-
         debug("Transforming block: " + locStringFromBlock(block));
-        int bubbleTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(ClayFarmingPlugin.plugin, new Runnable(){
-            @Override
-            public void run() {
-                try {
-                    Location waterLocation = block.getLocation().add(0.5, 1, 0.5);
-                    if (waterLocation.getBlock().getType() == Material.WATER || waterLocation.getBlock().getType() == Material.STATIONARY_WATER) {
-                        if (block.getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
-                            ParticleEffect.WATER_BUBBLE.display(0, 0, 0, 0.35F, 1, waterLocation, 64);
-                        }
+        int bubbleTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(ClayFarmingPlugin.plugin, () -> {
+            try {
+                Location waterLocation = block.getLocation().add(0.5, 1, 0.5);
+                if (waterLocation.getBlock().getType() == Material.WATER || waterLocation.getBlock().getType() == Material.STATIONARY_WATER) {
+                    if (block.getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
+                        ParticleEffect.WATER_BUBBLE.display(0, 0, 0, 0.35F, 1, waterLocation, 64);
                     }
-                } catch (Exception ignored) {}
+                }
+            } catch (Exception ignored) {
             }
-        },1L,10L);
-
+        }, 1L, 10L);
         if (!bubbleTasks.contains(bubbleTask)) {
             bubbleTasks.add(bubbleTask);
         }
-
         if (!tranformTasks.contains(block)) {
             tranformTasks.add(block);
         }
-
-        double time = ClayFarmingPlugin.rand.nextInt((Settings.maximumTime*1000 - Settings.minimumTime*1000) + 1) + Settings.minimumTime*1000;
-        time = time/1000;
-
-        BukkitTask transformTask = Bukkit.getScheduler().runTaskLater(ClayFarmingPlugin.plugin, new Runnable(){
-            @Override
-            public void run() {
-                long startTime = System.currentTimeMillis();
-                if (tranformTasks.contains(block)) {
-                    if (block.getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
-                        Block up = block.getRelative(BlockFace.UP);
-                        if (up.getType() == Material.WATER || up.getType() == Material.STATIONARY_WATER) {
-                            block.setType(material);
-                            debug("Transformed: " + locStringFromBlock(block) + " (" + (System.currentTimeMillis()-startTime) + "ms)");
-                        }
+        double time = ClayFarmingPlugin.rand.nextInt((Settings.maximumTime * 1000 - Settings.minimumTime * 1000) + 1) + Settings.minimumTime * 1000;
+        Bukkit.getScheduler().runTaskLater(ClayFarmingPlugin.plugin, () -> {
+            long startTime = System.currentTimeMillis();
+            if (tranformTasks.contains(block)) {
+                if (block.getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
+                    Block up = block.getRelative(BlockFace.UP);
+                    if (up.getType() == Material.WATER || up.getType() == Material.STATIONARY_WATER) {
+                        block.setType(material);
+                        debug("Transformed: " + locStringFromBlock(block) + " (" + (System.currentTimeMillis() - startTime) + "ms)");
                     }
-                    debug("Stopping and removing block from tasks..");
-                    tranformTasks.remove(block);
-                    stopBubbleTask(bubbleTask);
-                } else {
-                    debug("transformTasks did not contain block: " + locStringFromBlock(block));
-                    stopBubbleTask(bubbleTask);
                 }
+                debug("Stopping and removing block from tasks..");
+                tranformTasks.remove(block);
+                stopBubbleTask(bubbleTask);
+            } else {
+                debug("transformTasks did not contain block: " + locStringFromBlock(block));
+                stopBubbleTask(bubbleTask);
             }
-        },(long) (time*20));
+        }, (long) ((time / 1000) * 20));
     }
 
-    public static void stopBubbleTask(Integer task) {
+    private static void stopBubbleTask(Integer task) {
         try {
             Bukkit.getScheduler().cancelTask(task);
         } catch (Exception ex) {
@@ -88,7 +73,8 @@ public class StaticMethods {
         }
     }
 
-    public static void dumpActive() {
+    static void dumpActive() {
+        Configuration cache = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "cache.yml");
         if (tranformTasks.size() <= 0) {
             cache.delete();
             return;
@@ -108,7 +94,8 @@ public class StaticMethods {
         bubbleTasks.clear();
     }
 
-    public static void loadActive() {
+    static void loadActive() {
+        Configuration cache = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "cache.yml");
         if (cache.get("cache") != null) {
             debug("Loading cache file..");
             for (String s : cache.getStringList("cache")) {
@@ -122,12 +109,12 @@ public class StaticMethods {
         cache.delete();
     }
 
-    public static void reloadActive() {
+    static void reloadActive() {
         dumpActive();
         loadActive();
     }
 
-    public static Block locStringToBlock(String string) {
+    private static Block locStringToBlock(String string) {
         if (string != null) {
             String[] parts = string.split("~");
             try {
@@ -143,7 +130,7 @@ public class StaticMethods {
         return null;
     }
 
-    public static String locStringFromBlock(Block block) {
+    private static String locStringFromBlock(Block block) {
         if (block == null) {
             return null;
         } else {
@@ -156,7 +143,7 @@ public class StaticMethods {
         }
     }
 
-    public static Boolean hasPermission(Player player, String node) {
+    static Boolean hasPermission(Player player, String node) {
         if (player.isOp()) {
             return true;
         }
@@ -171,8 +158,8 @@ public class StaticMethods {
         }
     }
 
-    public static void log(String message) {
-        message = Settings.pluginPrefix + "&r " + message;
+    static void log(String message) {
+        message = Settings.pluginPrefix + " &r" + message;
         sendConsole(message);
     }
 
@@ -183,7 +170,7 @@ public class StaticMethods {
         }
     }
 
-    public static void sendConsole(String message) {
+    private static void sendConsole(String message) {
         ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
         try {
             if (Settings.colorfulLogging) {
@@ -196,11 +183,11 @@ public class StaticMethods {
         }
     }
 
-    public static String addColor(String message) {
+    static String addColor(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public static String removeColor(String message) {
+    private static String removeColor(String message) {
         message = addColor(message);
         return ChatColor.stripColor(message);
     }
