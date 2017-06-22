@@ -1,6 +1,5 @@
 package net.doodcraft.oshcon.bukkit.clayfarming.config;
 
-import net.doodcraft.oshcon.bukkit.clayfarming.StaticMethods;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.file.YamlConfigurationOptions;
 
@@ -17,12 +16,10 @@ public class Configuration {
 
     public Configuration(File file) {
         if (!file.exists()) {
+            file.getParentFile().mkdirs();
             try {
-                if (file.createNewFile()) {
-                }
-            } catch (IOException ex) {
-                StaticMethods.debug(ex.getLocalizedMessage());
-            }
+                file.createNewFile();
+            } catch (IOException ignored) {}
         }
         load();
     }
@@ -30,12 +27,10 @@ public class Configuration {
     public Configuration(String path) {
         file = new File(path);
         if (!file.exists() || file == null) {
+            file.getParentFile().mkdirs();
             try {
-                if (file.createNewFile()) {
-                }
-            } catch (IOException ex) {
-                StaticMethods.debug(ex.getLocalizedMessage());
-            }
+                file.createNewFile();
+            } catch (IOException ignored) {}
         }
         load();
     }
@@ -43,26 +38,20 @@ public class Configuration {
     private void load() {
         try {
             yaml.load(file);
-        } catch (Exception ex) {
-            StaticMethods.debug(ex.getLocalizedMessage());
-        }
+        } catch (Exception ignored) {}
     }
 
     public void save() {
         try {
             yaml.save(file);
-        } catch (Exception ex) {
-            StaticMethods.debug(ex.getLocalizedMessage());
-        }
+        } catch (Exception ignored) {}
     }
 
     public void delete() {
         try {
-            if (file.createNewFile()) {
+            if (file.delete()) {
             }
-        } catch (Exception ex) {
-            StaticMethods.debug(ex.getLocalizedMessage());
-        }
+        } catch (Exception ignored) {}
     }
 
     public int getInteger(String s) {
