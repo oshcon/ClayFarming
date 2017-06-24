@@ -4,7 +4,7 @@
 
     <groupId>net.doodcraft</groupId>
     <artifactId>ClayFarming</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
 
     <build>
         <finalName>${artifactId}-${version}</finalName>
