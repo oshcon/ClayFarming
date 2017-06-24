@@ -158,7 +158,7 @@ public class StaticMethods {
         }
     }
 
-    static void log(String message) {
+    public static void log(String message) {
         message = Settings.pluginPrefix + " &r" + message;
         sendConsole(message);
     }
