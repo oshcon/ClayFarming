@@ -1,6 +1,7 @@
 package net.doodcraft.oshcon.bukkit.clayfarming.config;
 
 import net.doodcraft.oshcon.bukkit.clayfarming.ClayFarmingPlugin;
+import net.doodcraft.oshcon.bukkit.clayfarming.util.StaticMethods;
 
 import java.io.File;
 
@@ -62,10 +63,17 @@ public class Settings {
         noPermission = locale.getString("General.NoPermission");
     }
 
-    public static void reload() {
-        Configuration config = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "config.yml");
-        Configuration locale = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "locale.yml");
-        setNewConfigValues(config);
-        setNewLocaleValues(locale);
+    public static boolean reload() {
+        try {
+            Configuration config = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "config.yml");
+            Configuration locale = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "locale.yml");
+            setNewConfigValues(config);
+            setNewLocaleValues(locale);
+            StaticMethods.reloadActive();
+            return false;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return true;
+        }
     }
 }

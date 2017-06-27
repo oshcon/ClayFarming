@@ -1,6 +1,7 @@
-package net.doodcraft.oshcon.bukkit.clayfarming;
+package net.doodcraft.oshcon.bukkit.clayfarming.util;
 
 import de.slikey.effectlib.util.ParticleEffect;
+import net.doodcraft.oshcon.bukkit.clayfarming.ClayFarmingPlugin;
 import net.doodcraft.oshcon.bukkit.clayfarming.config.Configuration;
 import net.doodcraft.oshcon.bukkit.clayfarming.config.Settings;
 import org.bukkit.Bukkit;
@@ -73,7 +74,7 @@ public class StaticMethods {
         }
     }
 
-    static void dumpActive() {
+    public static void dumpActive() {
         Configuration cache = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "cache.yml");
         if (tranformTasks.size() <= 0) {
             cache.delete();
@@ -94,7 +95,7 @@ public class StaticMethods {
         bubbleTasks.clear();
     }
 
-    static void loadActive() {
+    public static void loadActive() {
         Configuration cache = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "cache.yml");
         if (cache.get("cache") != null) {
             debug("Loading cache file..");
@@ -109,7 +110,7 @@ public class StaticMethods {
         cache.delete();
     }
 
-    static void reloadActive() {
+    public static void reloadActive() {
         dumpActive();
         loadActive();
     }
@@ -143,7 +144,7 @@ public class StaticMethods {
         }
     }
 
-    static Boolean hasPermission(Player player, String node) {
+    public static Boolean hasPermission(Player player, String node) {
         if (player.isOp()) {
             return true;
         }
@@ -183,7 +184,7 @@ public class StaticMethods {
         }
     }
 
-    static String addColor(String message) {
+    public static String addColor(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 

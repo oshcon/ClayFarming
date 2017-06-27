@@ -2,6 +2,8 @@ package net.doodcraft.oshcon.bukkit.clayfarming;
 
 import net.doodcraft.oshcon.bukkit.clayfarming.config.Settings;
 import net.doodcraft.oshcon.bukkit.clayfarming.listeners.BlockListener;
+import net.doodcraft.oshcon.bukkit.clayfarming.util.StaticMethods;
+import org.bstats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -12,13 +14,15 @@ import java.util.Random;
 public class ClayFarmingPlugin extends JavaPlugin {
 
     public static Plugin plugin;
-    static Random rand;
+    public static Random rand;
+    public static Metrics metrics;
 
     @Override
     public void onEnable() {
         long start = System.currentTimeMillis();
         plugin = this;
         rand = new Random();
+        metrics = new Metrics(this);
         registerListeners();
         setExecutors();
         Settings.setupDefaults();

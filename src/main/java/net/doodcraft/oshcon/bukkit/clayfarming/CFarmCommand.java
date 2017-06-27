@@ -1,6 +1,7 @@
 package net.doodcraft.oshcon.bukkit.clayfarming;
 
 import net.doodcraft.oshcon.bukkit.clayfarming.config.Settings;
+import net.doodcraft.oshcon.bukkit.clayfarming.util.StaticMethods;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,55 +13,64 @@ public class CFarmCommand implements CommandExecutor {
         if (label.equalsIgnoreCase("cfarm")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (!StaticMethods.hasPermission(player, ClayFarmingPlugin.plugin.getName().toLowerCase() + ".command.cfarm")) {
+                if (!StaticMethods.hasPermission(player, "clayfarming.command.clayfarming")) {
                     return false;
                 }
                 if (args.length == 0) {
-                    sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &aValid Options: &ereload"));
+                    sendValidCommands(sender);
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("reload")) {
-                    if (!StaticMethods.hasPermission(player, ClayFarmingPlugin.plugin.getName().toLowerCase() + ".command.reload")) {
+                    if (!StaticMethods.hasPermission(player, "clayfarming.command.reload")) {
                         return false;
                     }
-                    try {
-                        Settings.reload();
-                        StaticMethods.reloadActive();
-                        StaticMethods.log("&aPlugin reloaded.");
-                        sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &aPlugin reloaded."));
-                        return true;
-                    } catch (Exception ex) {
-                        StaticMethods.log("&cError reloading plugin.");
-                        sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &cError reloading plugin."));
-                        StaticMethods.debug(ex.getLocalizedMessage());
-                        return false;
-                    }
+                    boolean error = Settings.reload();
+                    sendReloaded(error, sender);
+                    return true;
                 }
-                player.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &cIncorrect subcommand."));
-                sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &aValid Options: &ereload"));
+                player.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + "&cIncorrect subcommand."));
+                sendValidCommands(sender);
                 return false;
             } else {
                 if (args.length == 0) {
-                    StaticMethods.log("&aValid Options: &ereload");
+                    sendValidCommands(sender);
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("reload")) {
-                    try {
-                        Settings.reload();
-                        StaticMethods.reloadActive();
-                        StaticMethods.log("&aPlugin reloaded.");
-                        return true;
-                    } catch (Exception ex) {
-                        StaticMethods.log("&cError reloading plugin.");
-                        StaticMethods.debug(ex.getLocalizedMessage());
-                        return true;
-                    }
+                    boolean error = Settings.reload();
+                    sendReloaded(error, sender);
+                    return true;
                 }
-                StaticMethods.log("&cIncorrect subcommand.");
-                StaticMethods.log("&aValid Options: &ereload");
-                return false;
             }
         }
         return false;
+    }
+
+    public static void sendReloaded(boolean error, CommandSender sender) {
+        if (!error) {
+            if (sender instanceof Player) {
+                sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &aPlugin reloaded!"));
+                StaticMethods.log("&aPlugin reloaded!");
+            } else {
+                StaticMethods.log("&aPlugin reloaded!");
+            }
+        } else {
+            if (sender instanceof Player) {
+                sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &cError reloading plugin!"));
+                StaticMethods.log("&cError reloading plugin!");
+            } else {
+                StaticMethods.log("&cError reloading plugin!");
+            }
+        }
+    }
+
+    public static void sendValidCommands(CommandSender sender) {
+        if (sender instanceof Player) {
+            sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &3Valid Commands:"));
+            sender.sendMessage(StaticMethods.addColor(Settings.pluginPrefix + " &b/cfarm reload: &7Reloads the config and active tasks"));
+        } else {
+            StaticMethods.log("&3Valid Commands:");
+            StaticMethods.log("&b/chisel reload: &7Reloads the config and active tasks");
+        }
     }
 }

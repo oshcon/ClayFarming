@@ -1,6 +1,6 @@
 package net.doodcraft.oshcon.bukkit.clayfarming.listeners;
 
-import net.doodcraft.oshcon.bukkit.clayfarming.StaticMethods;
+import net.doodcraft.oshcon.bukkit.clayfarming.util.StaticMethods;
 import net.doodcraft.oshcon.bukkit.clayfarming.config.Settings;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

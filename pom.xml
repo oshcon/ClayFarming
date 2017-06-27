@@ -4,7 +4,7 @@
 
     <groupId>net.doodcraft</groupId>
     <artifactId>ClayFarming</artifactId>
-    <version>0.2.4</version>
+    <version>0.2.5</version>
 
     <build>
         <finalName>${artifactId}-${version}</finalName>
@@ -59,12 +59,17 @@
                             <artifactSet>
                                 <includes>
                                     <include>de.slikey:EffectLib</include>
+                                    <include>org.bstats:*</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>de.slikey</pattern>
                                     <shadedPattern>net.doodcraft.oshcon.bukkit.clayfarming.shaded.de.slikey</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.bstats</pattern>
+                                    <shadedPattern>net.doodcraft.oshcon.bukkit.clayfarming.shaded.org.bstats</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -79,10 +84,13 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-
         <repository>
             <id>elmakers-repo</id>
             <url>http://maven.elmakers.com/repository/</url>
+        </repository>
+        <repository>
+            <id>bstats-repo</id>
+            <url>http://repo.bstats.org/content/repositories/releases/</url>
         </repository>
     </repositories>
 
@@ -93,19 +101,22 @@
             <version>1.12-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.12-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>de.slikey</groupId>
             <artifactId>EffectLib</artifactId>
-            <version>5.1-SNAPSHOT</version>
+            <version>5.5-SNAPSHOT</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 </project>
