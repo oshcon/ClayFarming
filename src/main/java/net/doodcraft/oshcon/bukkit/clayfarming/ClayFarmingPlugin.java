@@ -3,7 +3,7 @@ package net.doodcraft.oshcon.bukkit.clayfarming;
 import net.doodcraft.oshcon.bukkit.clayfarming.config.Settings;
 import net.doodcraft.oshcon.bukkit.clayfarming.listeners.BlockListener;
 import net.doodcraft.oshcon.bukkit.clayfarming.util.StaticMethods;
-import org.bstats.Metrics;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;

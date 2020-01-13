@@ -4,27 +4,26 @@ import net.doodcraft.oshcon.bukkit.clayfarming.ClayFarmingPlugin;
 import net.doodcraft.oshcon.bukkit.clayfarming.util.StaticMethods;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Settings {
     // CONFIG
     public static Boolean colorfulLogging;
-    public static Boolean debug;
     public static int minimumTime;
     public static int maximumTime;
     public static String transformFromMaterial;
     public static String transformToMaterial;
+    public static List<String> liquids;
     // LOCALE
     public static String pluginPrefix;
     public static String noPermission;
-    private static Boolean particles;
 
     public static void setupDefaults() {
         // CONFIG
         colorfulLogging = true;
-        debug = false;
         minimumTime = 1;
         maximumTime = 4;
-        particles = true;
         transformFromMaterial = "GRAVEL";
         transformToMaterial = "CLAY";
         // LOCALE
@@ -34,12 +33,18 @@ public class Settings {
         Configuration config = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "config.yml");
         Configuration locale = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "locale.yml");
         config.add("General.ColorfulLogging", colorfulLogging);
-        config.add("General.DebugMessages", debug);
+        config.remove("General.DebugMessages");
         config.add("WaitTime.Minimum", minimumTime);
         config.add("WaitTime.Maximum", maximumTime);
-        config.add("Particles.Enabled", particles);
+        config.remove("Particles");
         config.add("Materials.From", transformFromMaterial);
         config.add("Materials.To", transformToMaterial);
+        liquids = new ArrayList<>();
+        liquids.add("WATER");
+        liquids.add("STATIONARY_WATER");
+        liquids.add("LAVA");
+        liquids.add("STATIONARY_LAVA");
+        config.add("Materials.Liquids", liquids);
         locale.add("General.PluginPrefix", pluginPrefix);
         locale.add("General.NoPermission", noPermission);
         config.save();
@@ -50,12 +55,11 @@ public class Settings {
 
     private static void setNewConfigValues(Configuration config) {
         colorfulLogging = config.getBoolean("General.ColorfulLogging");
-        debug = config.getBoolean("General.DebugMessages");
         minimumTime = config.getInteger("WaitTime.Minimum");
         maximumTime = config.getInteger("WaitTime.Maximum");
-        particles = config.getBoolean("Particles.Enabled");
         transformFromMaterial = config.getString("Materials.From");
         transformToMaterial = config.getString("Materials.To");
+        liquids = config.getStringList("Materials.Liquids");
     }
 
     private static void setNewLocaleValues(Configuration locale) {
