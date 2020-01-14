@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Random;
+import java.util.concurrent.Callable;
 
 public class ClayFarmingPlugin extends JavaPlugin {
 
@@ -29,8 +30,17 @@ public class ClayFarmingPlugin extends JavaPlugin {
         StaticMethods.loadActive();
         long finish = System.currentTimeMillis();
         StaticMethods.log("&aClayFarming v" + plugin.getDescription().getVersion() + " is now loaded. &e(" + (finish - start) + "ms)");
+        if (!Settings.metrics) return;
+        try {
+            metrics.addCustomChart(new Metrics.SingleLineChart("using_itemdrops", new Callable<Integer>() {
+                @Override
+                public Integer call() throws Exception {
+                    if (Settings.dropItems) return 1;
+                    return 0;
+                }
+            }));
+        } catch (Exception ignored) {}
     }
-
 
     @Override
     public void onDisable() {

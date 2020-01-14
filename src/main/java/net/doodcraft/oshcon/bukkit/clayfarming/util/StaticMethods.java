@@ -10,15 +10,20 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class StaticMethods {
 
+    public static Random random;
     public static ArrayList<Block> tranformTasks = new ArrayList<>();
 
     public static boolean isLiquid(Block block) {
+        if (!block.isLiquid()) return false;
         return (Settings.liquids.contains(block.getType().name()));
     }
 
@@ -31,11 +36,35 @@ public class StaticMethods {
         Bukkit.getScheduler().runTaskLater(ClayFarmingPlugin.plugin, () -> {
             if (tranformTasks.contains(block)) {
                 if (block.getType() == Material.valueOf(Settings.transformFromMaterial.toUpperCase())) {
+                    dropItems(block);
                     block.setType(material);
                 }
                 tranformTasks.remove(block);
             }
         }, (long) ((time / 1000) * 20));
+    }
+
+    public static void dropItems(Block block) {
+        if (!Settings.dropItems) return;
+        if (random == null) {
+            random = new Random();
+        }
+        Configuration items = new Configuration(ClayFarmingPlugin.plugin.getDataFolder() + File.separator + "items.yml");
+        for (String s : items.getKeys(false)) {
+            double r = 0.01 + random.nextDouble() * (99.99);
+            if (r <= items.getDouble(s + ".chance")) {
+                try {
+                    ItemStack[] i = BukkitSerialization.itemStackArrayFromBase64(items.getString(s + ".item"));
+                    ItemStack item = i[0];
+                    if (item != null) {
+                        Location loc = block.getLocation().clone();
+                        if (loc.getWorld() != null) {
+                            loc.getWorld().dropItemNaturally(loc, item);
+                        }
+                    }
+                } catch (IOException ignored) {}
+            }
+        }
     }
 
     public static void dumpActive() {

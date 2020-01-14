@@ -3,6 +3,7 @@ version: ${project.version}
 authors: [oshcon]
 website: http://doodcraft.net/
 main: net.doodcraft.oshcon.bukkit.clayfarming.ClayFarmingPlugin
+api-version: 1.13
 
 commands:
   cfarm:
@@ -17,4 +18,7 @@ permissions:
     default: OP
   clayfarming.command.reload:
     description: Allows players to use /cfarm reload
+    default: OP
+  clayfarming.command.addhand:
+    description: Allows players to use /cfarm addhand
     default: OP

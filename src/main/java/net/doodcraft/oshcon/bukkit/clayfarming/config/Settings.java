@@ -15,6 +15,8 @@ public class Settings {
     public static String transformFromMaterial;
     public static String transformToMaterial;
     public static List<String> liquids;
+    public static Boolean dropItems;
+    public static Boolean metrics;
     // LOCALE
     public static String pluginPrefix;
     public static String noPermission;
@@ -26,6 +28,8 @@ public class Settings {
         maximumTime = 4;
         transformFromMaterial = "GRAVEL";
         transformToMaterial = "CLAY";
+        dropItems = false;
+        metrics = true;
         // LOCALE
         pluginPrefix = "&5[&b" + ClayFarmingPlugin.plugin.getName() + "&5]";
         noPermission = "&cYou do not have permission.";
@@ -36,14 +40,14 @@ public class Settings {
         config.remove("General.DebugMessages");
         config.add("WaitTime.Minimum", minimumTime);
         config.add("WaitTime.Maximum", maximumTime);
-        config.remove("Particles");
+        config.remove("Particles"); // since 0.4.0
         config.add("Materials.From", transformFromMaterial);
         config.add("Materials.To", transformToMaterial);
+        config.add("ItemDrops.Enabled", dropItems);
+        config.add("General.Metrics", metrics);
         liquids = new ArrayList<>();
         liquids.add("WATER");
         liquids.add("STATIONARY_WATER");
-        liquids.add("LAVA");
-        liquids.add("STATIONARY_LAVA");
         config.add("Materials.Liquids", liquids);
         locale.add("General.PluginPrefix", pluginPrefix);
         locale.add("General.NoPermission", noPermission);
@@ -60,6 +64,8 @@ public class Settings {
         transformFromMaterial = config.getString("Materials.From");
         transformToMaterial = config.getString("Materials.To");
         liquids = config.getStringList("Materials.Liquids");
+        dropItems = config.getBoolean("ItemDrops.Enabled");
+        metrics = config.getBoolean("General.Metrics");
     }
 
     private static void setNewLocaleValues(Configuration locale) {
